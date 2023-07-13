@@ -3,7 +3,7 @@ import os
 
 # Snowflake connection parameters
 account = 'gw81556.central-us.azure'
-user = 'snowflakebooyah'
+user = 'pythonrun'
 password = 'B4byJ4n3'
 warehouse = 'COMPUTE_WH'
 database = 'DSS_2_STAGE_DB'
@@ -92,9 +92,10 @@ for db in databases:
         stored_procedures = cursor.fetchall()
 
         for sp in stored_procedures:
-            sp_name = sp[1]
+            sp_name = sp[2]
+            sp_arg = sp[4]
             sp_export_path = os.path.join(procedures_folder_path, sp_name + ".sql")
-            sp_export_query = f"SELECT GET_DDL('PROCEDURE', {db_name}.{schema_name}.{sp_name})"
+            sp_export_query = f"SELECT GET_DDL('PROCEDURE', '{db_name}.{schema_name}.{sp_name}{sp_arg}')"
             cursor.execute(sp_export_query)
             sp_create_statement = cursor.fetchone()[0]
 

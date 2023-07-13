@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/518e1e16-c70c-4ca2-829d-306bdfa83742/console_2.sql" dialect="Snowflake" />
+    <file url="PROJECT" dialect="Snowflake" />
+  </component>
+</project>
