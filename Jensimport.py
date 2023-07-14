@@ -21,7 +21,7 @@ conn = snowflake.connector.connect(
 cursor = conn.cursor()
 
 # Export path
-export_path = 'C:\Projects-Repo\JensInformatica'   # Specify the path where database artifacts will be exported
+export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\JEN_DB_FILES'   # Specify the path where database artifacts will be exported
 os.makedirs(export_path, exist_ok=True)
 
 # Export databases and artifacts - delivered databases contain some items that cannot be exported out
