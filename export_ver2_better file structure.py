@@ -105,3 +105,8 @@ for db in databases:
 # Close the cursor and connection
 cursor.close()
 conn.close()
+
+from datetime import datetime
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("End Time =", current_time)
