@@ -1,9 +1,14 @@
 import snowflake.connector
 import os
 
+from datetime import datetime
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
+
 # Snowflake connection parameters
 account = 'wt77763.east-us-2.azure'
-user = 'warlybard1'
+user = 'pythonrun'
 password = 'B4byJ4n3'
 warehouse = 'COMPUTE_WH'
 database = 'PC_INFORMATICA_DB'
@@ -42,6 +47,7 @@ for db in databases:
     schema_query = f"select * from  {db_name}.information_schema.schemata where schema_name not in ('SCHEMACHANGE', 'INFORMATION_SCHEMA')"
     cursor.execute(schema_query)
     schemas = cursor.fetchall()
+    print(db_name)
 
     for schema in schemas:
         schema_name = schema[1]
@@ -103,5 +109,11 @@ for db in databases:
                 sp_file.write(sp_create_statement)
 
 # Close the cursor and connection
+
 cursor.close()
 conn.close()
+
+from datetime import datetime
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)

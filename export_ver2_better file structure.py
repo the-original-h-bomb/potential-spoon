@@ -2,11 +2,11 @@ import snowflake.connector
 import os
 
 # Snowflake connection parameters
-account = 'wt77763.east-us-2.azure'
-user = 'warlybard1'
+account = 'gw81556.central-us.azure'
+user = 'pythonrun'
 password = 'B4byJ4n3'
 warehouse = 'COMPUTE_WH'
-database = 'PC_INFORMATICA_DB'
+database = 'DSS_2_STAGE_DB'
 
 # Snowflake connection
 conn = snowflake.connector.connect(
@@ -21,11 +21,11 @@ conn = snowflake.connector.connect(
 cursor = conn.cursor()
 
 # Export path
-export_path = 'C:\Projects-Repo\JensInformatica'   # Specify the path where database artifacts will be exported
+export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\DB_Files'   # Specify the path where database artifacts will be exported
 os.makedirs(export_path, exist_ok=True)
 
 # Export databases and artifacts - delivered databases contain some items that cannot be exported out
-query = f"SHOW DATABASES like '%PC_INFORMATICA%'"
+query = f"SHOW DATABASES like 'DSS%' "
 
 # Execute the query to fetch all databases
 cursor.execute(query)
