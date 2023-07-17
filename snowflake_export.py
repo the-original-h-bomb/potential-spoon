@@ -3,7 +3,7 @@ import shutil
 import snowflake.connector
 
 
-#delete directories created by previous export
+#delete directories created by previous export to ensure dropped objects are removed
 def delete_folder_contents(export_path):
     try:
         for filename in os.listdir(export_path):
