@@ -1,5 +1,28 @@
-import snowflake.connector
 import os
+import shutil
+import snowflake.connector
+
+
+#delete directories created by previous export
+def delete_folder_contents(export_path):
+    try:
+        for filename in os.listdir(export_path):
+            file_path = os.path.join(export_path, filename)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        print(f"Contents of folder '{export_path}' successfully deleted.")
+    except FileNotFoundError:
+        print(f"Folder '{export_path}' not found.")
+    except Exception as e:
+        print(f"Error occurred while deleting contents of folder '{export_path}': {str(e)}")
+
+
+# Export path
+export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\DB_Files'   # Specify the path where database artifacts will be exported
+delete_folder_contents(export_path)
+os.makedirs(export_path, exist_ok=True)
 
 # Snowflake connection parameters
 account = 'gw81556.central-us.azure'
@@ -19,10 +42,6 @@ conn = snowflake.connector.connect(
 
 # Snowflake cursor
 cursor = conn.cursor()
-
-# Export path
-export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\DB_Files'   # Specify the path where database artifacts will be exported
-os.makedirs(export_path, exist_ok=True)
 
 # Export databases and artifacts - delivered databases contain some items that cannot be exported out
 query = f"SHOW DATABASES like 'DSS%' "
