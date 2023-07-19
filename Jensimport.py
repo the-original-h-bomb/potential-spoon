@@ -5,7 +5,7 @@ import snowflake.connector
 from datetime import datetime
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
-print("Current Time =", current_time)
+print("Start Time =", current_time)
 
 
 #delete directories created by previous export to ensure dropped objects are removed
@@ -74,7 +74,7 @@ for db in databases:
         os.makedirs(schema_export_path, exist_ok=True)
 
 
-      #build structure for elements we are exporting
+        #build structure for elements we are exporting
         dynamic_table_folder_path = os.path.join(schema_export_path, "DYNAMIC_TABLES")
         os.makedirs(dynamic_table_folder_path, exist_ok=True)
 
@@ -109,7 +109,7 @@ for db in databases:
             with open(table_export_path, 'w') as table_file:
                 table_file.write(table_create_statement)
 
-       # Export dynamic_tables
+        # Export dynamic_tables
         dynamic_table_query = f"SHOW DYNAMIC TABLES IN SCHEMA {db_name}.{schema_name}"
         cursor.execute(dynamic_table_query)
         dynamic_tables = cursor.fetchall()
@@ -186,11 +186,10 @@ for db in databases:
                 tasks_file.write(tasks_create_statement)
 
 # Close the cursor and connection
-
 cursor.close()
 conn.close()
 
 from datetime import datetime
 now = datetime.now()
 current_time = now.strftime("%H:%M:%S")
-print("Current Time =", current_time)
+print("End Time =", current_time)
