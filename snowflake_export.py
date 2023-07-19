@@ -2,6 +2,10 @@ import os
 import shutil
 import snowflake.connector
 
+from datetime import datetime
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
 
 #delete directories created by previous export to ensure dropped objects are removed
 def delete_folder_contents(export_path):
