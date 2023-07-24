@@ -1,2 +1,0 @@
-drop view DEMO.ADDRESSES_TO_DELETE_V;
-
