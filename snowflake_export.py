@@ -30,8 +30,8 @@ delete_folder_contents(export_path)
 os.makedirs(export_path, exist_ok=True)
 
 # Snowflake connection parameters
-account = 'gw81556.central-us.azure'
-user = 'pythonrun'
+account = 'nub26673.us-east-1'
+user = 'hdg'
 password = 'B4byJ4n3'
 warehouse = 'COMPUTE_WH'
 database = 'DSS_2_STAGE_DB'
