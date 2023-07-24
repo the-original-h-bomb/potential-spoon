@@ -49,7 +49,8 @@ conn = snowflake.connector.connect(
 cursor = conn.cursor()
 
 # Export databases and artifacts - delivered databases contain some items that cannot be exported out
-query = f"SHOW DATABASES like '%PC_INFORMATICA%'"
+query = f"select * from information_schema.databases " \
+        f"where database_NAME not like 'SNOWFLAKE%' AND TYPE = 'STANDARD';"
 
 # Execute the query to fetch all databases
 cursor.execute(query)
@@ -58,7 +59,7 @@ cursor.execute(query)
 databases = cursor.fetchall()
 
 for db in databases:
-    db_name = db[1]
+    db_name = db[0]
     db_export_path = os.path.join(export_path, db_name)
     os.makedirs(db_export_path, exist_ok=True)
 
