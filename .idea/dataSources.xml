@@ -12,14 +12,14 @@
       <driver-ref>snowflake</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
-      <jdbc-url>jdbc:snowflake://https://gw81556.central-us.azure.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;db=DSS_2_STAGE_DB&amp;role=DEV_STG_FULL</jdbc-url>
+      <jdbc-url>jdbc:snowflake://https://nub26673.us-east-1.snowflakecomputing.com/??warehouse=COMPUTE_WH&amp;db=DSS_2_STAGE_DB&amp;role=DEV_STG_FULL</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="POTATOFLAP_PRD" uuid="6c682d27-4406-47ea-8f51-e563cc44ba32">
       <driver-ref>snowflake</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
-      <jdbc-url>jdbc:snowflake://gw81556.central-us.azure.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;db=DSS_3_PRODUCTION_DB&amp;role=PRD_READONLY</jdbc-url>
+      <jdbc-url>jdbc:snowflake://https://nub26673.us-east-1.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;db=DSS_3_PRODUCTION_DB&amp;role=PRD_READONLY</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
