@@ -22,5 +22,12 @@
       <jdbc-url>jdbc:snowflake://https://nub26673.us-east-1.snowflakecomputing.com/?warehouse=COMPUTE_WH&amp;db=DSS_3_PRODUCTION_DB&amp;role=PRD_READONLY</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Jen's Snowflake" uuid="f696b71d-98fc-4151-9fad-aa6803db2d6f">
+      <driver-ref>snowflake</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>net.snowflake.client.jdbc.SnowflakeDriver</jdbc-driver>
+      <jdbc-url>jdbc:snowflake://https://wt77763.east-us-2.azure.snowflakecomputing.com:443?warehouse=COMPUTE_WH&amp;db=DSS_3_PRD_DB&amp;role=ACCOUNTADMIN</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
