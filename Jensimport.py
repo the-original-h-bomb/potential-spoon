@@ -157,14 +157,16 @@ for db in databases:
                 sp_file.write(sp_create_statement)
 
         # Export streams
-        streams_query = f"SHOW STREAMS IN SCHEMA;"
+        streams_query = f"SHOW STREAMS;"
         cursor.execute(streams_query)
         streams = cursor.fetchall()
 
         for streams in streams:
             streams_name = streams[1]
+            streams_db = streams[2]
+            streams_schema = streams[3]
             streams_export_path = os.path.join(streams_folder_path, streams_name + ".sql")
-            streams_export_query = f"SELECT GET_DDL('STREAM', '{db_name}.{schema_name}.{streams_name}')"
+            streams_export_query = f"SELECT GET_DDL('STREAM', '{streams_db}.{streams_schema}.{streams_name}')"
             cursor.execute(streams_export_query)
             streams_create_statement = cursor.fetchone()[0]
 
@@ -172,14 +174,16 @@ for db in databases:
                 streams_file.write(streams_create_statement)
 
         # Export tasks
-        tasks_query = f"SHOW TASKS IN SCHEMA;"
+        tasks_query = f"SHOW TASKS;"
         cursor.execute(tasks_query)
         tasks = cursor.fetchall()
 
         for tasks in tasks:
             tasks_name = tasks[1]
+            tasks_db = tasks[3]
+            tasks_schema = tasks[4]
             tasks_export_path = os.path.join(tasks_folder_path, tasks_name + ".sql")
-            tasks_export_query = f"SELECT GET_DDL('TASK', '{db_name}.{schema_name}.{tasks_name}')"
+            tasks_export_query = f"SELECT GET_DDL('TASK', '{tasks_db}.{tasks_schema}.{tasks_name}')"
             cursor.execute(tasks_export_query)
             tasks_create_statement = cursor.fetchone()[0]
 

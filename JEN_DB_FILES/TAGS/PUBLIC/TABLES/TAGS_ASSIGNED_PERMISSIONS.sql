@@ -1,0 +1,7 @@
+create or replace TABLE TAGS_ASSIGNED_PERMISSIONS (
+	TAG_NAME VARCHAR(16777216),
+	DB_PERMISSIONS ARRAY,
+	SCHEMA_PERMISSIONS ARRAY,
+	ADDED_DATE TIMESTAMP_LTZ(9) DEFAULT CURRENT_TIMESTAMP()
+)COMMENT='Local to store the mappings of what each tags permissions shouold be set to'
+;

@@ -1,0 +1,1 @@
+create or replace stream ADWKS_SD_PERSON_STAGING_VIEW_STREAM on view ADWKS_SD_PERSON_STAGING;

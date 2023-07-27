@@ -1,0 +1,8 @@
+create or replace TABLE DEFAULT_ROLE_PERMISSIONS_ASSIGNED (
+	LIKE_MATCHES VARCHAR(16777216),
+	DB_PERMISSIONS ARRAY,
+	SCHEMA_PERMISSIONS ARRAY,
+	ADDED_DATE TIMESTAMP_LTZ(9) DEFAULT CURRENT_TIMESTAMP(),
+	PUBLIC_ONLY BOOLEAN
+)COMMENT='Local to store the mappings of what each role naming conventions permissions should be set to'
+;
