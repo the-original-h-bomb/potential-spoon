@@ -1,0 +1,1 @@
+create or replace tag VISIBILITY  allowed_values  'department' , 'iu' , 'iuf' , 'public' ;

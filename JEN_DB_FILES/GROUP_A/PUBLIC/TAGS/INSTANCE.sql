@@ -1,0 +1,1 @@
+create or replace tag INSTANCE  allowed_values  'dev' , 'prd' , 'stg' ;
