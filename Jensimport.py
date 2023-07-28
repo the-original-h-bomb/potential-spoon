@@ -356,8 +356,6 @@ for db in databases:
 
         for tasks in tasks:
             tasks_name = tasks[1]
-            tasks_db = tasks[3]
-            tasks_schema = tasks[4]
             tasks_export_path = os.path.join(tasks_folder_path, tasks_name + ".sql")
             tasks_export_query = f"SELECT GET_DDL('TASK', '{db_name}.{schema_name}.{tasks_name}')"
             cursor.execute(tasks_export_query)
@@ -366,7 +364,23 @@ for db in databases:
             with open(tasks_export_path, 'w') as tasks_file:
                 tasks_file.write(tasks_create_statement)
 
-        # Export UDF
+        # Export User Defined Functions
+
+        functions_query = f"SHOW USER FUNCTIONS IN SCHEMA {db_name}.{schema_name};"
+        cursor.execute(functions_query)
+        functions = cursor.fetchall()
+
+        for function in functions:
+            function_name = function[8]
+            delimit = ' RETURN'
+            function_name = function_name.split(delimit, 1)[0]
+            function_export_path = os.path.join(udf_folder_path, function_name + ".sql")
+            function_export_query = f"SELECT GET_DDL('FUNCTION', '{db_name}.{schema_name}.{function_name}')"
+            cursor.execute(function_export_query)
+            function_create_statement = cursor.fetchone()[0]
+
+            with open(function_export_path, 'w') as function_file:
+                function_file.write(function_create_statement)
 
         # Export views
         view_query = f"SHOW VIEWS IN SCHEMA {db_name}.{schema_name}"
