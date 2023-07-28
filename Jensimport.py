@@ -62,10 +62,18 @@ for db in databases:
     db_name = db[0]
     db_export_path = os.path.join(export_path, db_name)
     os.makedirs(db_export_path, exist_ok=True)
+    db_ddl_export_path = os.path.join(db_export_path, db_name + ".sql")
+    db_export_query = f"SELECT GET_DDL('DATABASE','{db_name}')"
+    cursor.execute(db_export_query)
+    db_create_statement = cursor.fetchone()[0]
+
+    with open(db_ddl_export_path, 'w') as db_file:
+        db_file.write(db_create_statement)
 
 
     # Export schemas
-    schema_query = f"select * from  {db_name}.information_schema.schemata where schema_name not in ('SCHEMACHANGE', 'INFORMATION_SCHEMA')"
+    schema_query = f"select * from  {db_name}.information_schema.schemata " \
+                   f"where schema_name not in ('SCHEMACHANGE', 'INFORMATION_SCHEMA')"
     cursor.execute(schema_query)
     schemas = cursor.fetchall()
 
