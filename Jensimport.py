@@ -81,6 +81,13 @@ for db in databases:
         schema_name = schema[1]
         schema_export_path = os.path.join(db_export_path, schema_name)
         os.makedirs(schema_export_path, exist_ok=True)
+        schema_ddl_export_path = os.path.join(schema_export_path, schema_name + ".sql")
+        schema_export_query = f"SELECT GET_DDL('SCHEMA','{db_name}.{schema_name}')"
+        cursor.execute(schema_export_query)
+        schema_create_statement = cursor.fetchone()[0]
+
+        with open(schema_ddl_export_path, 'w') as schema_file:
+            schema_file.write(schema_create_statement)
 
         #build structure for elements we are exporting
         alerts_folder_path = os.path.join(schema_export_path, "ALERTS")
