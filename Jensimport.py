@@ -518,7 +518,6 @@ for db in databases:
                 view_file.write(view_create_statement)
 
 
-
 # Close the cursor and connection
 cursor.close()
 conn.close()
