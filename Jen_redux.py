@@ -26,16 +26,16 @@ def delete_folder_contents(export_path):
 
 
 # Export path
-export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\JEN_DB_FILES'   # Specify the path where database artifacts will be exported
+export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\JEN_REDUX'   # Specify the path where database artifacts will be exported
 delete_folder_contents(export_path)
 os.makedirs(export_path, exist_ok=True)
 
 # Snowflake connection parameters
-account = 'wt77763.east-us-2.azure'
+account = 'dg83080.east-us-2.azure'
 user = 'pythonrun'
-password = 'B4byJ4n3'
+password = 'B4byJ4n3_101'
 warehouse = 'COMPUTE_WH'
-database = 'PC_INFORMATICA_DB'
+database = 'CRIMSON'
 
 # Snowflake connection
 conn = snowflake.connector.connect(
@@ -115,8 +115,8 @@ with open(roles_export_path, mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow([x[0] for x in cursor.description])  # write header
     for row in roles_file:
-        writer.writerow(row) 
-        
+        writer.writerow(row)
+
 SP_export_path = os.path.join(export_path, "SESSION_POLICIES.csv")
 SP_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.SESSION_POLICIES;"
 cursor.execute(SP_query)
@@ -126,7 +126,7 @@ with open(SP_export_path, mode='w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow([x[0] for x in cursor.description])  # write header
     for row in SP_file:
-        writer.writerow(row)        
+        writer.writerow(row)
 
 '''
 SESSIONS DATA IS MORE THAN GIT WILL ALLOW WITH .COM LICENSE - BUT WE MAY NOT WANT THIS ANYWAY
