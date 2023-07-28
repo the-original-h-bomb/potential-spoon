@@ -1,6 +1,7 @@
 import os
 import shutil
 import snowflake.connector
+import csv
 
 from datetime import datetime
 now = datetime.now()
@@ -48,12 +49,116 @@ conn = snowflake.connector.connect(
 # Snowflake cursor
 cursor = conn.cursor()
 
+### security table dump ####
+
+gtr_export_path = os.path.join(export_path, "GRANTS_TO_ROLES.csv")
+gtr_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.GRANTS_TO_ROLES;"
+cursor.execute(gtr_query)
+gtr_file = cursor.fetchall()
+
+with open(gtr_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in gtr_file:
+        writer.writerow(row)
+
+gtu_export_path = os.path.join(export_path, "GRANTS_TO_USERS.csv")
+gtu_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.GRANTS_TO_USERS;"
+cursor.execute(gtu_query)
+gtu_file = cursor.fetchall()
+
+with open(gtu_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in gtu_file:
+        writer.writerow(row)
+        
+lh_export_path = os.path.join(export_path, "LOGIN_HISTORY.csv")
+lh_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.LOGIN_HISTORY;"
+cursor.execute(lh_query)
+lh_file = cursor.fetchall()
+
+with open(lh_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in lh_file:
+        writer.writerow(row)        
+
+PP_export_path = os.path.join(export_path, "PASSWORD_POLICIES.csv")
+PP_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.PASSWORD_POLICIES;"
+cursor.execute(PP_query)
+PP_file = cursor.fetchall()
+
+with open(PP_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in PP_file:
+        writer.writerow(row)
+        
+pr_export_path = os.path.join(export_path, "POLICY_REFERENCES.csv")
+pr_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.POLICY_REFERENCES;"
+cursor.execute(pr_query)
+pr_file = cursor.fetchall()
+
+with open(pr_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in pr_file:
+        writer.writerow(row)        
+        
+roles_export_path = os.path.join(export_path, "ROLES.csv")
+roles_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.ROLES;"
+cursor.execute(roles_query)
+roles_file = cursor.fetchall()
+
+with open(roles_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in roles_file:
+        writer.writerow(row) 
+        
+SP_export_path = os.path.join(export_path, "SESSION_POLICIES.csv")
+SP_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.SESSION_POLICIES;"
+cursor.execute(SP_query)
+SP_file = cursor.fetchall()
+
+with open(SP_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in SP_file:
+        writer.writerow(row)        
+
+'''
+SESSIONS DATA IS MORE THAN GIT WILL ALLOW WITH .COM LICENSE - BUT WE MAY NOT WANT THIS ANYWAY
+SESSIONS_export_path = os.path.join(export_path, "SESSIONS.csv")
+SESSIONS_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.SESSIONS;"
+cursor.execute(SESSIONS_query)
+SESSIONS_file = cursor.fetchall()
+
+with open(SESSIONS_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in SESSIONS_file:
+        writer.writerow(row)
+'''
+
+USERS_export_path = os.path.join(export_path, "USERS.csv")
+USERS_query = f"SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.USERS;"
+cursor.execute(USERS_query)
+USERS_file = cursor.fetchall()
+
+with open(USERS_export_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow([x[0] for x in cursor.description])  # write header
+    for row in USERS_file:
+        writer.writerow(row)
+
 # Export databases and artifacts - delivered databases contain some items that cannot be exported out
-query = f"select * from information_schema.databases " \
+db_query = f"select * from information_schema.databases " \
         f"where database_NAME not like 'SNOWFLAKE%' AND TYPE = 'STANDARD';"
 
 # Execute the query to fetch all databases
-cursor.execute(query)
+cursor.execute(db_query)
 
 # Fetch all the databases
 databases = cursor.fetchall()
