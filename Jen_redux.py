@@ -34,7 +34,7 @@ os.makedirs(export_path, exist_ok=True)
 account = 'dg83080.east-us-2.azure'
 user = 'DataWatchtower'
 password = 'DataWatchtower123'
-warehouse = 'COMPUTE_WH'
+warehouse = 'WH_IUF'
 database = 'CRIMSON'
 
 # Snowflake connection
