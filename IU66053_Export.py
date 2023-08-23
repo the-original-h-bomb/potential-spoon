@@ -26,13 +26,13 @@ def delete_folder_contents(export_path):
 
 
 # Export path
-export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\JEN_REDUX'   # Specify the path where database artifacts will be exported
+export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\IU66053_Export'   # Specify the path where database artifacts will be exported
 delete_folder_contents(export_path)
 os.makedirs(export_path, exist_ok=True)
 
 # Snowflake connection parameters
-account = 'dg83080.east-us-2.azure'
-user = 'DataWatchtower'
+account = 'iu66053.east-us-2.azure'
+user = 'DATAWATCHTOWER'
 password = 'DataWatchtower123'
 warehouse = 'WH_IUF'
 database = 'CRIMSON'
@@ -48,6 +48,9 @@ conn = snowflake.connector.connect(
 
 # Snowflake cursor
 cursor = conn.cursor()
+
+role_query = f"USE SECONDARY ROLES ALL"
+cursor.execute(role_query)
 
 ### security table dump ####
 
@@ -341,7 +344,7 @@ for db in databases:
         for mpolicy in mpolicies:
             mpolicy_name = mpolicy[1]
             mpolicy_export_path = os.path.join(policies_folder_path, mpolicy_name + ".sql")
-            mpolicy_export_query = f"SELECT GET_DDL('POLICIES','{db_name}.{schema_name}.{mpolicy_name}')"
+            mpolicy_export_query = f"SELECT GET_DDL('POLICY','{db_name}.{schema_name}.{mpolicy_name}')"
             cursor.execute(mpolicy_export_query)
             mpolicy_create_statement = cursor.fetchone()[0]
 
@@ -409,15 +412,16 @@ for db in databases:
                 sequence_file.write(sequence_create_statement)
 
         # Export stored procedures
-        sp_query = f"select * from {db_name}.information_schema.procedures"
+        sp_query = f"select * from {db_name}.information_schema.procedures where procedure_schema = '{schema_name}'"
         cursor.execute(sp_query)
         stored_procedures = cursor.fetchall()
 
         for sp in stored_procedures:
             sp_name = sp[2]
             sp_arg = sp[4]
+            sp_arg_substring = sp_arg.replace("W_DB_NAME ", "")
             sp_export_path = os.path.join(stored_procedures_folder_path, sp_name + ".sql")
-            sp_export_query = f"SELECT GET_DDL('PROCEDURE', '{db_name}.{schema_name}.{sp_name}{sp_arg}')"
+            sp_export_query = f"SELECT GET_DDL('PROCEDURE', '{db_name}.{schema_name}.{sp_name}{sp_arg_substring}')"
             cursor.execute(sp_export_query)
             sp_create_statement = cursor.fetchone()[0]
 

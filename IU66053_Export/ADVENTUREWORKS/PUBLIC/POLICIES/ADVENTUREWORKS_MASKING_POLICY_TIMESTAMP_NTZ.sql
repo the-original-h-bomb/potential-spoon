@@ -1,0 +1,7 @@
+create or replace masking policy ADVENTUREWORKS_MASKING_POLICY_TIMESTAMP_NTZ as (VAL TIMESTAMP_NTZ(9)) 
+returns TIMESTAMP_NTZ(9) ->
+CASE
+          WHEN IS_ROLE_IN_SESSION('ADVENTUREWORKS_READONLY') then val
+          ELSE NULL
+        END
+;
