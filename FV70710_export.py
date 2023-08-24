@@ -26,16 +26,16 @@ def delete_folder_contents(export_path):
 
 
 # Export path
-export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\DB_Files'   # Specify the path where database artifacts will be exported
+export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\FV70710_export'   # Specify the path where database artifacts will be exported
 delete_folder_contents(export_path)
 os.makedirs(export_path, exist_ok=True)
 
 # Snowflake connection parameters
-account = 'nub26673.us-east-1'
-user = 'hdg'
+account = 'fv70710.central-us.azure'
+user = 'WarlyBard1'
 password = 'B4byJ4n3'
 warehouse = 'COMPUTE_WH'
-database = 'DSS_2_STAGE_DB'
+database = 'ADMINISTRATIVE'
 
 # Snowflake connection
 conn = snowflake.connector.connect(
