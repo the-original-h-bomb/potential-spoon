@@ -411,22 +411,22 @@ for db in databases:
             with open(sequence_export_path, 'w') as sequence_file:
                 sequence_file.write(sequence_create_statement)
 
-        # Export stored procedures
-        sp_query = f"select * from {db_name}.information_schema.procedures where procedure_schema = '{schema_name}'"
-        cursor.execute(sp_query)
-        stored_procedures = cursor.fetchall()
-
-        for sp in stored_procedures:
-            sp_name = sp[2]
-            sp_arg = sp[4]
-            sp_arg_substring = sp_arg.replace("W_DB_NAME ", "")
-            sp_export_path = os.path.join(stored_procedures_folder_path, sp_name + ".sql")
-            sp_export_query = f"SELECT GET_DDL('PROCEDURE', '{db_name}.{schema_name}.{sp_name}{sp_arg_substring}')"
-            cursor.execute(sp_export_query)
-            sp_create_statement = cursor.fetchone()[0]
-
-            with open(sp_export_path, 'w') as sp_file:
-                sp_file.write(sp_create_statement)
+        # # Export stored procedures
+        # sp_query = f"select * from {db_name}.information_schema.procedures where procedure_schema = '{schema_name}'"
+        # cursor.execute(sp_query)
+        # stored_procedures = cursor.fetchall()
+        #
+        # for sp in stored_procedures:
+        #     sp_name = sp[2]
+        #     sp_arg = sp[4]
+        #     sp_arg_substring = sp_arg.replace("W_DB_NAME ", "")
+        #     sp_export_path = os.path.join(stored_procedures_folder_path, sp_name + ".sql")
+        #     sp_export_query = f"SELECT GET_DDL('PROCEDURE', '{db_name}.{schema_name}.{sp_name}{sp_arg_substring}')"
+        #     cursor.execute(sp_export_query)
+        #     sp_create_statement = cursor.fetchone()[0]
+        #
+        #     with open(sp_export_path, 'w') as sp_file:
+        #         sp_file.write(sp_create_statement)
 
         # Export streams
         streams_query = f"SHOW STREAMS IN SCHEMA {db_name}.{schema_name};"
