@@ -276,6 +276,7 @@ try {
      	const grantToDatabase = [];
 	    grantToDatabase.push(`GRANT USAGE ON DATABASE ${databaseName} TO ROLE ${role}`);
 	    grantToDatabase.push(`GRANT USAGE ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
+	    grantToDatabase.push(`GRANT USAGE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
 	   
 	   	if ( role.includes(roleReadOnlySuffix)) {
 		    if(isSystemAccount === false) {
@@ -290,7 +291,9 @@ try {
 	   }
 	   
 	   
-	    if(isSystemAccount === true) {
+	   if ( role.includes(roleEditorSuffix)) {
+	   
+	    	if(isSystemAccount === true) {
 	               	grantToReadOnlyQueries.push(`GRANT SELECT, REFERENCES ON ALL TABLES IN DATABASE ${databaseName} TO ROLE ${role}`);
 	                grantToReadOnlyQueries.push(`GRANT SELECT, REFERENCES ON FUTURE TABLES IN DATABASE ${databaseName} TO ROLE ${role}`);
                	}
@@ -314,7 +317,51 @@ try {
                 grantToDatabase.push(`GRANT CREATE FILE FORMAT ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);                
                 grantToDatabase.push(`GRANT CREATE FUNCTION ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);                
                 grantToDatabase.push(`GRANT CREATE SEQUENCE ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE IDENTIFIER(''"${role}"'')`);
+               
+               grantToDatabase.push(`GRANT CREATE PROCEDURE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
+               grantToDatabase.push(`GRANT CREATE TEMPORARY TABLE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
+               grantToDatabase.push(`GRANT CREATE VIEW ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
+               grantToDatabase.push(`GRANT CREATE TABLE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
+               grantToDatabase.push(`GRANT CREATE MATERIALIZED VIEW ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);
+               grantToDatabase.push(`GRANT CREATE FILE FORMAT ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);                
+               grantToDatabase.push(`GRANT CREATE FUNCTION ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);                
+               grantToDatabase.push(`GRANT CREATE SEQUENCE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE IDENTIFIER(''"${role}"'')`);
+
+
+	   }
 	   
+	   
+	   
+	   if (role.includes(roleAdminSuffix)) {
+              
+              /* 
+                 grantToDatabase.push(`GRANT OWNERSHIP ON ALL TABLES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON ALL MATERIALIZED VIEWS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON ALL PROCEDURES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON ALL VIEWS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON ALL SEQUENCES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON ALL FUNCTIONS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON FUTURE TABLES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON FUTURE EVENT TABLES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON  FUTURE MATERIALIZED VIEWS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON  FUTURE PROCEDURES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON  FUTURE VIEWS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON  FUTURE SEQUENCES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON  FUTURE FUNCTIONS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                 grantToDatabase.push(`GRANT OWNERSHIP ON  FUTURE FILE FORMATS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
+                grantToDatabase.push(`GRANT CREATE DYNAMIC TABLE ON FUTURE SCHEMAS IN DATABASE IDENTIFIER(''"${databaseName}"'') TO ROLE IDENTIFIER(''"${role}"'')`);
+                */
+                grantToDatabase.push(`GRANT CREATE DYNAMIC TABLE ON FUTURE SCHEMAS IN DATABASE ${databaseName}  TO ROLE IDENTIFIER(''"${role}"'')`);
+                grantToDatabase.push(`GRANT CREATE EXTERNAL TABLE ON FUTURE SCHEMAS IN DATABASE ${databaseName}  TO ROLE ${role}`);
+                grantToDatabase.push(`GRANT CREATE STREAM ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);     
+                grantToDatabase.push(`GRANT CREATE STAGE ON FUTURE SCHEMAS IN DATABASE ${databaseName}  TO ROLE IDENTIFIER(''"${role}"'')`);
+               
+                grantToDatabase.push(`GRANT CREATE DYNAMIC TABLE ON ALL SCHEMAS IN DATABASE  ${databaseName} TO ROLE IDENTIFIER(''"${role}"'')`);
+                grantToDatabase.push(`GRANT CREATE PIPE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${role}`);           
+                grantToDatabase.push(`GRANT CREATE STAGE ON ALL SCHEMAS IN DATABASE ${databaseName}  TO ROLE IDENTIFIER(''"${role}"'')`);
+                grantToDatabase.push(`GRANT CREATE EXTERNAL TABLE ON ALL SCHEMAS IN DATABASE ${databaseName}  TO ROLE ${role}`);
+
+               }
        for (let query of grantToDatabase) {
        		try {
        			snowflake.execute({ sqlText: query });
@@ -333,6 +380,10 @@ try {
     grantToMaskingAdminDatabase.push(`GRANT REFERENCES ON FUTURE VIEWS IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
     grantToMaskingAdminDatabase.push(`GRANT CREATE VIEW ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
     grantToMaskingAdminDatabase.push(`GRANT CREATE MASKING POLICY ON FUTURE SCHEMAS IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
+    grantToMaskingAdminDatabase.push(`GRANT USAGE ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
+    grantToMaskingAdminDatabase.push(`GRANT SELECT, REFERENCES ON ALL TABLES IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
+    grantToMaskingAdminDatabase.push(`GRANT CREATE MASKING POLICY ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
+    grantToMaskingAdminDatabase.push(`GRANT CREATE VIEW ON ALL SCHEMAS IN DATABASE ${databaseName} TO ROLE ${maskingAdminRoleName}`);
    
 
     for (let query of grantToMaskingAdminDatabase) {
@@ -376,7 +427,9 @@ try {
         results.push(`USE ROLE SECURITYADMIN; Error using administrative database: ${err} `);
         return results.join(''; \\r\\n'');
     }
-   
+    
+   // return results.join(''; \\r\\n'');
+     /*
     for (let schema of additionalSchemaNames) {
 
         const grantToMaskingAdmin = [];
@@ -396,7 +449,7 @@ try {
                         return results.join(''; \\r\\n'');
                     }
                 }
-        
+      
         for (let role of roles) {
         	const revokeAllPriviges = [];
 	    	revokeAllPriviges.push(`REVOKE ALL PRIVILEGES ON ALL ALERTS IN SCHEMA ${databaseName}.${schema}  FROM ROLE ${role}`);
@@ -498,7 +551,7 @@ try {
                  grantToEditorQueries.push(`GRANT OWNERSHIP ON  FUTURE SEQUENCES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
                  grantToEditorQueries.push(`GRANT OWNERSHIP ON  FUTURE FUNCTIONS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
                  grantToEditorQueries.push(`GRANT OWNERSHIP ON  FUTURE FILE FORMATS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
-                */
+                * /
                if(isSystemAccount === true) {
 	               	grantToReadOnlyQueries.push(`GRANT SELECT, REFERENCES ON ALL TABLES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role}`);
 	                grantToReadOnlyQueries.push(`GRANT SELECT, REFERENCES ON FUTURE TABLES IN SCHEMA ${databaseName}.${schema} TO ROLE ${role}`);
@@ -559,7 +612,7 @@ try {
                  grantToAdminQueries.push(`GRANT OWNERSHIP ON  FUTURE FUNCTIONS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
                  grantToAdminQueries.push(`GRANT OWNERSHIP ON  FUTURE FILE FORMATS IN SCHEMA ${databaseName}.${schema} TO ROLE ${role} COPY CURRENT GRANTS`);
                 grantToAdminQueries.push(`GRANT CREATE DYNAMIC TABLE ON FUTURE SCHEMAS IN DATABASE IDENTIFIER(''"${databaseName}"'') TO ROLE IDENTIFIER(''"${role}"'')`);
-                */
+                * /
                 grantToAdminQueries.push(`GRANT CREATE DYNAMIC TABLE ON FUTURE SCHEMAS IN DATABASE IDENTIFIER(''"${databaseName}"'') TO ROLE IDENTIFIER(''"${role}"'')`);
                 grantToAdminQueries.push(`GRANT CREATE EXTERNAL TABLE ON SCHEMA ${databaseName}.${schema} TO ROLE ${role}`);
                 grantToAdminQueries.push(`GRANT CREATE PIPE ON SCHEMA ${databaseName}.${schema} TO ROLE ${role}`);               
@@ -582,10 +635,11 @@ try {
 
 
             }
+           
 
 
-        }
-    }
+        } */
+    //}
     return `Success; Result: ` + results.join(''; \\r\\n'');
 
 

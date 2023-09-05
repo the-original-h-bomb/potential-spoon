@@ -26,7 +26,7 @@ def delete_folder_contents(export_path):
 
 
 # Export path
-export_path = 'C:\Projects-Repo\SNOWFLAKE_BOOYAH\FV70710_export'   # Specify the path where database artifacts will be exported
+export_path = r'C:\Projects-Repo\SNOWFLAKE_BOOYAH\FV70710_export'   # Specify the path where database artifacts will be exported
 delete_folder_contents(export_path)
 os.makedirs(export_path, exist_ok=True)
 
