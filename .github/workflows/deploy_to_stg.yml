@@ -1,4 +1,4 @@
-name: deploy_to_stg-IU66053
+name: deploy_to_stg-FV70710
 
 # Controls when the action will run. 
 on:
@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'Schema_Change_Drops/IU66053_STG_deploy/**'
+      - 'Schema_Change_Drops/FV70710_STG_deploy/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -40,4 +40,4 @@ jobs:
           pip install schemachange
           
           echo "Step 2: Running schemachange"
-          schemachange -f $GITHUB_WORKSPACE/Schema_Change_Drops/IU66053_STG_deploy -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_ROLE -w $SF_WAREHOUSE -d $SF_DATABASE -c $SF_DATABASE.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
+          schemachange -f $GITHUB_WORKSPACE/Schema_Change_Drops/FV70710_STG_deploy -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_ROLE -w $SF_WAREHOUSE -d $SF_DATABASE -c $SF_DATABASE.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
