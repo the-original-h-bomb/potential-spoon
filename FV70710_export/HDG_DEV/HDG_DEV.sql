@@ -26,6 +26,11 @@ create or replace TABLE NAMES (
 	CODE VARCHAR(255),
 	primary key (ID)
 );
+create or replace TABLE POTATO_FRANCHISE (
+	ID NUMBER(38,0),
+	POTATO_TYPE VARCHAR(50),
+	POTATO_PRODUCT VARCHAR(50)
+);
 create or replace view CUSTOMER_FAVORITES(
 	NAME,
 	FOOD
