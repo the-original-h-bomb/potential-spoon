@@ -4,6 +4,12 @@ create or replace schema PUBLIC;
 
 create or replace schema ROLLBACK;
 
+create or replace TABLE AND_AGAIN (
+	ID NUMBER(38,0) NOT NULL,
+	NAME VARCHAR(255),
+	CODE VARCHAR(255),
+	primary key (ID)
+);
 create or replace dynamic table CUSTOMER_FAVORITES_DT(
 	NAME,
 	FOOD

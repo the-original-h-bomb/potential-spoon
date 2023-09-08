@@ -125,6 +125,7 @@ try {
     //var sql_command_tables = "SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ''" + schemaName + "'' AND TABLE_TYPE = ''BASE TABLE'' AND TABLE_NAME like ''%_BT''";
     var tables = snowflake.createStatement({sqlText: sql_command_tables}).execute();
     var results = []; 
+   
     while (tables.next()) {
         var tableName = tables.getColumnValue(2);
         var schemaName = tables.getColumnValue(4);
@@ -168,14 +169,22 @@ try {
             
             if (dynamicViewColumns.length > 0) {        
                 var dynamicViewColumnsDefinition = dynamicViewColumns.join('', '');
-                var createTableCommand = `CREATE OR REPLACE SECURE VIEW ${schemaName}.${newTableName} as
+                var createViewCommand = `CREATE OR REPLACE SECURE VIEW ${schemaName}.${newTableName} as
                        select ${dynamicViewColumnsDefinition}
                        from ${schemaName}.${tableName}                
                 `;
-                results.push(createTableCommand);
-                var statement2 = snowflake.createStatement({sqlText: createTableCommand});
+                results.push(createViewCommand);
+                var statement2 = snowflake.createStatement({sqlText: createViewCommand});
                 statement2.execute();
+
+                var enableChangeTrackingCommand = `ALTER VIEW ${schemaName}.${newTableName} SET CHANGE_TRACKING = TRUE`;
+                results.push(enableChangeTrackingCommand);
+                var statement3 = snowflake.createStatement({sqlText: enableChangeTrackingCommand});
+                statement3.execute();
+              
             }
+
+            
             for (let mPolicy of dynamicColumnMasking) {
                     var alterStatement = `ALTER VIEW ${schemaName}.${newTableName} MODIFY ${mPolicy}`;
                     results.push(alterStatement);
