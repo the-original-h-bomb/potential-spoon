@@ -34,7 +34,7 @@ os.makedirs(export_path, exist_ok=True)
 account = 'fv70710.central-us.azure'
 user = 'WarlyBard1'
 password = 'B4byJ4n3'
-warehouse = 'COMPUTE_WH'
+warehouse = 'SYSADMIN'
 database = 'ADMINISTRATIVE'
 
 # Snowflake connection
