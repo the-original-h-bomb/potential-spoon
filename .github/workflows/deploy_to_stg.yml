@@ -1,4 +1,4 @@
-name: deploy_to_stg-FV70710
+name: deploy_to_stg-LD96699
 
 # Controls when the action will run. 
 on:
@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'Schema_Change_Drops/FV70710_STG_deploy/**'
+      - 'Schema_Change_Drops/LD96699_STG_deploy/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
