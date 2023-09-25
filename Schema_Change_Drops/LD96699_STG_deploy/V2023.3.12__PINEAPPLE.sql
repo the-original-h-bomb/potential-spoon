@@ -1,1 +1,1 @@
-delete from rollback.foods where code in ('PIN);
+delete from rollback.foods where code in ('PIN');
