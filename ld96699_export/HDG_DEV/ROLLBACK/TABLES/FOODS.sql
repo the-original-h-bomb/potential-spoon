@@ -1,4 +1,0 @@
-create or replace TABLE FOODS (
-	CODE VARCHAR(255),
-	FOOD VARCHAR(255)
-);
