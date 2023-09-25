@@ -1,3 +1,3 @@
-drop table foods;
-create or replace table foods clone foods_1;
-drop table foods_1;
+drop table rollback.foods;
+create or replace table rollback.foods clone rollback.foods_1;
+drop table rollback.foods_1;
